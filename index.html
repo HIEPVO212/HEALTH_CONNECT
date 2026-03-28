@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthConnect - Đặt Lịch Khám</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Swiper CSS (Slide) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <style>
+        :root {
+            --primary: #00bcd4; /* Màu Cyan chuẩn ảnh */
+            --bg-body: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        body {
+            background-color: #e9ecef; /* Màu nền xám nhạt như ảnh */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* --- 1. NAVIGATION MOBILE FIRST --- */
+        .top-nav {
+            background: var(--white);
+            padding: 0.5rem 0;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+        }
+
+        .nav-links-wrapper {
+            display: none; 
+            flex-direction: column;
+            position: absolute;
+            top: 100%; left: 0; width: 100%;
+            background: white; padding: 1rem 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-links-wrapper.show { display: flex; }
+
+        .nav-item-custom {
+            cursor: pointer; font-weight: 600; font-size: 0.9rem;
+            color: #444; padding: 0.8rem 1.5rem; border-bottom: 1px solid #f9f9f9;
+        }
+
+        .nav-item-custom:hover, .nav-item-custom.active { color: var(--primary); }
+
+        @media (min-width: 992px) {
+            .menu-toggle { display: none !important; }
+            .nav-links-wrapper {
+                display: flex !important; flex-direction: row;
+                position: static; width: auto; box-shadow: none; padding: 0;
+            }
+            .nav-item-custom { border: none; padding: 0.5rem 0.8rem; }
+            .nav-item-custom.active { border-bottom: 2px solid var(--primary); }
+        }
+
+        /* --- 2. LAYOUT CHÍNH --- */
+        .page-container {
+            max-width: 1200px;
+            margin: 1rem auto;
+            background: white;
+            min-height: 85vh;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .page-content { display: none; }
+        .page-content.active { display: block; }
+
+        /* HEADER XANH - Chuẩn các trang con */
+        .cyan-header {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* 3. TRANG CHỦ GRID MENU (Ảnh 1) */
+        .blue-hero { background: var(--primary); color: white; padding: 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; padding: 1.5rem; }
+        .card-menu { border-radius: 8px; padding: 1.5rem 0.5rem; text-align: center; color: white; cursor: pointer; transition: 0.3s; }
+        .bg-blue { background-color: #1e88e5; }
+        .bg-orange { background-color: #ff9f43; }
+        .bg-teal { background-color: #00a896; }
+        .bg-red { background-color: #ff5e5e; }
+
+        /* 4. LIST ITEM (Bệnh viện & Bác sĩ - Ảnh 2, 3) */
+        .list-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 1.5rem; border-bottom: 1px solid #eee;
+        }
+        .list-item img { width: 3.5rem; height: 3.5rem; border-radius: 50%; margin-right: 1rem; }
+        .btn-booking { background: var(--primary); color: white; border: none; padding: 0.4rem 1.5rem; border-radius: 20px; font-size: 0.9rem; }
+
+        /* 5. CHỌN GIỜ (Ảnh 4) */
+        .time-slot {
+            border: 1px solid #ddd; padding: 0.5rem; text-align: center;
+            border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-bottom: 0.5rem;
+        }
+        .time-slot:hover { background: var(--primary); color: white; }
+
+        /* 6. GIỚI THIỆU DÀI */
+        .intro-text { padding: 3rem; line-height: 1.8; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="top-nav">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="fw-bold text-info fs-3" onclick="navigate('home')" style="cursor:pointer">HEALTHCONNECT</div>
+            <div class="menu-toggle d-lg-none" onclick="toggleMenu()"><i class="fas fa-bars fs-2 text-info"></i></div>
+            <div class="nav-links-wrapper" id="navMenu">
+                <span class="nav-item-custom active" onclick="navigate('home')">Trang Chủ</span>
+                <span class="nav-item-custom" onclick="navigate('dv1')">Chọn Bệnh Viện</span>
+                <span class="nav-item-custom" onclick="navigate('dv2')">Chọn Bác Sĩ</span>
+                <span class="nav-item-custom" onclick="navigate('dv3')">Đặt Lịch Khám</span>
+                <span class="nav-item-custom" onclick="navigate('dv5')">Xác nhận</span>
+                <span class="nav-item-custom" onclick="navigate('intro')">Giới thiệu</span>
+                <span class="nav-item-custom" onclick="navigate('login')">Đăng nhập</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+
+        <!-- 1. TRANG CHỦ -->
+        <section id="home" class="page-content active">
+            <div class="blue-hero">
+                <div>
+                    <h1 class="fw-bold">HealthConnect</h1>
+                    <p id="health-tip">Đang tải lời khuyên y tế...</p>
+                    <button class="btn btn-light text-info fw-bold" onclick="navigate('intro')">Tìm hiểu ngay</button>
+                </div>
+                <i class="fas fa-user-md fa-7x opacity-25 d-none d-md-block"></i>
+            </div>
+          <div class="menu-grid">
+                    <div class="card-menu bg-blue" onclick="navigate('dv1')"><i class="fas fa-hospital fa-2x mb-2"></i><br>Tại viện</div>
+                    <div class="card-menu bg-orange" onclick="navigate('remote-page')"><i class="fas fa-video fa-2x mb-2"></i><br>Từ xa</div>
+                    <div class="card-menu bg-teal" onclick="navigate('lab-page')"><i class="fas fa-flask fa-2x mb-2"></i><br>Xét nghiệm</div>
+                    <div class="card-menu bg-red" onclick="navigate('emergency-page')"><i class="fas fa-ambulance fa-2x mb-2"></i><br>Cấp cứu</div>
+                </div>
+            <div class="p-3">
+                <h6 class="fw-bold px-3">Danh sách bệnh viện nổi bật</h6>
+                <div class="list-item">
+                    <div class="d-flex align-items-center"><img src="https://images2.thanhnien.vn/528068263637045248/2023/8/18/img9538-16923539714192021645154.jpg"><div><strong>Bệnh viện Chợ Rẫy</strong><br><small>201B Nguyễn Chí Thanh, Q.5</small></div></div>
+                    <button class="btn btn-info text-white rounded-pill btn-sm px-3" onclick="navigate('dv1')">Chọn</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TRANG CHỌN BỆNH VIỆN (Ảnh 1 fen gửi) -->
+        <section id="dv1" class="page-content">
+            <div class="p-4 border-bottom"><h4>Chọn Bệnh Viện / Phòng Khám</h4></div>
+            <div class="p-4">
+                <input type="text" class="form-control mb-4" placeholder="Tìm kiếm bệnh viện...">
+                <div class="list-item" onclick="navigate('dv2')" style="cursor:pointer">
+                    <div class="d-flex align-items-center">
+                        <img src="https://images2.thanhnien.vn/528068263637045248/2023/8/18/img9538-16923539714192021645154.jpg">
+                        <div><strong>Bệnh viện Chợ Rẫy</strong><p class="mb-0 text-muted small">Khoa Nội, Ngoại, Sản...</p></div>
+                    </div>
+                    <i class="fas fa-chevron-right text-muted"></i>
+                </div>
+                <div class="list-item" onclick="navigate('dv2')" style="cursor:pointer">
+                    <div class="d-flex align-items-center">
+                        <img src="https://nld.mediacdn.vn/291774122806476800/2022/6/2/img0247-1654168955116160099679.jpg">
+                        <div><strong>Bệnh viện Đa Khoa Đồng Nai</strong><p class="mb-0 text-muted small">Đa khoa, Khoa Nội, Sản...</p></div>
+                    </div>
+                    <i class="fas fa-chevron-right text-muted"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TRANG CHỌN BÁC SĨ (Ảnh 3 fen gửi) -->
+        <section id="dv2" class="page-content">
+            <div class="cyan-header">Chọn Bác Sĩ</div>
+            <div class="p-2">
+                <div class="list-item">
+                    <div class="d-flex align-items-center">
+                        <img src="https://i.pravatar.cc/150?u=1">
+                        <div><strong>BS. Vũ Mỹ Hương</strong><br><small>Phó giáo sư - Trưởng khoa</small></div>
+                    </div>
+                    <button class="btn-booking" onclick="navigate('dv3')">Đặt lịch</button>
+                </div>
+                <div class="list-item">
+                    <div class="d-flex align-items-center">
+                        <img src="https://i.pravatar.cc/150?u=5">
+                        <div><strong>BS. Nguyễn Hoài Hương</strong><br><small>Tiến sĩ - Khoa Nội tiết</small></div>
+                    </div>
+                    <button class="btn-booking" onclick="navigate('dv3')">Đặt lịch</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TRANG CHỌN GIỜ (Ảnh 4 fen gửi) -->
+        <section id="dv3" class="page-content">
+            <div class="cyan-header">Lịch khám bác sĩ Vũ Mỹ Hương</div>
+            <div class="p-4">
+                <div class="row text-center mb-4">
+                    <div class="col-md-6 border-end">
+                        <p class="fw-bold">SÁNG NGÀY 12/5/2026</p>
+                        <div class="row g-2 px-3">
+                            <div class="col-4"><div class="time-slot" onclick="navigate('dv5')">08:00-08:30</div></div>
+                            <div class="col-4"><div class="time-slot" onclick="navigate('dv5')">09:00-09:30</div></div>
+                            <div class="col-4"><div class="time-slot" onclick="navigate('dv5')">10:00-10:30</div></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="fw-bold">CHIỀU 12/5/2026</p>
+                        <div class="row g-2 px-3">
+                            <div class="col-4"><div class="time-slot" onclick="navigate('dv5')">13:30-14:00</div></div>
+                            <div class="col-4"><div class="time-slot" onclick="navigate('dv5')">14:30-15:00</div></div>
+                            <div class="col-4"><div class="time-slot" onclick="navigate('dv5')">14:30-15:00</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. TRANG XÁC NHẬN (Ảnh 2 fen gửi) -->
+        <section id="dv5" class="page-content">
+            <div class="cyan-header">Xác nhận đặt lịch</div>
+            <div class="p-4">
+                <div class="row mb-3">
+                    <div class="col-6"><strong>Bệnh viện:</strong> Chợ Rẫy</div>
+                    <div class="col-6"><strong>Bác sĩ:</strong> Vũ Mỹ Hương</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6"><strong>Ngày khám:</strong> 25/12/2023</div>
+                    <div class="col-6"><strong>Giờ:</strong> 08:00 - 08:30</div>
+                </div>
+                <hr>
+                <p class="small mb-1">Thông tin khách hàng</p>
+                <input type="text" id="pName" class="form-control mb-3" value="Nguyễn Văn A">
+                <button class="btn btn-info text-white w-100 py-2 fw-bold" onclick="finishBooking()">ĐẶT LỊCH NGAY</button>
+            </div>
+        </section>
+
+        <!-- 6. THÀNH CÔNG -->
+        <section id="dv6" class="page-content text-center p-5">
+            <i class="fas fa-check-circle text-info fa-5x mb-3"></i>
+            <h3>ĐẶT LỊCH THÀNH CÔNG!</h3>
+            <p>Mã số của bạn là: <strong id="resCode">#HC-888</strong></p>
+            <button class="btn btn-outline-info" onclick="navigate('home')">Quay lại trang chủ</button>
+        </section>
+
+        <!-- 7. GIỚI THIỆU -->
+        <section id="intro" class="page-content">
+            <div class="intro-text">
+                <h2 class="text-info fw-bold mb-4">Về HealthConnect</h2>
+                <p class="lead">Hệ thống y tế số hàng đầu Việt Nam.</p>
+                <p>HealthConnect là nền tảng hỗ trợ đặt lịch khám bệnh trực tuyến, giúp người bệnh dễ dàng tìm kiếm bác sĩ, phòng khám và bệnh viện phù hợp, đồng thời quản lý lịch hẹn một cách nhanh chóng và hiệu quả.</p>
+                <p>Được xây dựng với mục tiêu nâng cao trải nghiệm khám chữa bệnh, giảm thời gian chờ đợi và tối ưu quy trình đăng ký khám truyền thống.</p>
+            </div>
+        </section>
+
+        <!-- 8. ĐĂNG NHẬP & ĐĂNG KÝ -->
+        <section id="login" class="page-content">
+            <div class="row justify-content-center pt-5">
+                <div class="col-md-5 p-4 border rounded shadow bg-white">
+                    <h3 class="text-center text-info fw-bold mb-4">Đăng Nhập</h3>
+                    <input type="text" class="form-control mb-3" placeholder="Số điện thoại">
+                    <input type="password" class="form-control mb-3" placeholder="Mật khẩu">
+                    <button class="btn btn-info text-white w-100 mb-3" onclick="navigate('home')">VÀO HỆ THỐNG</button>
+                    <p class="text-center small">Chưa có tài khoản? <a href="#" onclick="navigate('register')">Đăng ký ngay</a></p>
+                </div>
+            </div>
+        </section>
+        <!-- TRANG TƯ VẤN TỪ XA -->
+        <section id="remote-page" class="page-content">
+            <div class="cyan-header">Bác sĩ tư vấn Video Call</div>
+            <div class="p-3">
+                <div class="list-item">
+                    <div class="d-flex align-items-center">
+                        <img src="https://i.pravatar.cc/150?u=15">
+                        <div><strong>BS. Trần Anh Tuấn</strong><br><small>Chuyên khoa Nội - 15 năm kinh nghiệm</small></div>
+                    </div>
+                    <button class="btn btn-warning text-white btn-sm px-3 rounded-pill" onclick="alert('Đang kết nối Video Call...')">Kết nối ngay</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANG XÉT NGHIỆM -->
+        <section id="lab-page" class="page-content">
+            <div class="cyan-header">Dịch vụ xét nghiệm tại nhà</div>
+            <div class="p-4">
+                <div class="card mb-3 p-3 border-0 bg-light shadow-sm d-flex flex-row justify-content-between align-items-center">
+                    <div><strong>Gói tổng quát 22 chỉ số</strong><br><small class="text-muted">Kiểm tra máu, gan, thận...</small></div>
+                    <button class="btn btn-teal text-white btn-sm" onclick="navigate('dv5')">1.200.000đ</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANG CẤP CỨU -->
+        <section id="emergency-page" class="page-content text-center p-5">
+            <h2 class="text-danger fw-bold">TRUNG TÂM CẤP CỨU 24/7</h2>
+            <p>Nhấn vào nút để gọi xe cứu thương ngay lập tức.</p>
+            <a href="tel:115" class="pulse-btn"><i class="fas fa-phone"></i></a>
+            <h3 class="text-danger fw-bold">GỌI NGAY: 115</h3>
+            <div class="mt-4 text-start">
+                <h6 class="fw-bold">Bệnh viện trực gần đây:</h6>
+                <ul class="list-group list-group-flush small">
+                    <li class="list-group-item d-flex justify-content-between"><span>BV Chợ Rẫy</span> <span class="badge bg-success">Đang mở</span></li>
+                    <li class="list-group-item d-flex justify-content-between"><span>BV Thống Nhất</span> <span class="badge bg-success">Đang mở</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="register" class="page-content">
+            <div class="row justify-content-center pt-5">
+                <div class="col-md-5 p-4 border rounded shadow bg-white">
+                    <h3 class="text-center text-info fw-bold mb-4">Đăng Ký</h3>
+                    <input type="text" id="rName" class="form-control mb-3" placeholder="Họ và tên">
+                    <input type="number" id="rPhone" class="form-control mb-3" placeholder="Số điện thoại">
+                    <input type="password" id="rPass" class="form-control mb-3" placeholder="Mật khẩu">
+                    <button class="btn btn-info text-white w-100" onclick="handleReg()">ĐĂNG KÝ</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        function showPage(pId) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item-custom').forEach(n => n.classList.remove('active'));
+            document.getElementById(pId).classList.add('active');
+            document.querySelectorAll('.nav-item-custom').forEach(nav => {
+                if(nav.getAttribute('onclick').includes(pId)) nav.classList.add('active');
+            });
+            window.scrollTo(0,0);
+        }
+
+        function toggleMenu() { document.getElementById('navMenu').classList.toggle('show'); }
+        function navigate(pId) { showPage(pId); document.getElementById('navMenu').classList.remove('show'); }
+
+        function handleReg() {
+            if(document.getElementById('rName').value.length < 5) return alert("Vui lòng nhập đầy đủ họ tên");
+            alert("Đăng ký thành công!"); navigate('login');
+        }
+
+        function finishBooking() {
+            if(document.getElementById('pName').value.length < 5) return alert("Vui lòng nhập tên bệnh nhân");
+            document.getElementById('resCode').innerText = "#HC-" + Math.floor(Math.random()*9000);
+            navigate('dv6');
+        }
+
+        async function loadTip() {
+            try {
+                const res = await fetch('https://api.adviceslip.com/advice');
+                const data = await res.json();
+                document.getElementById('health-tip').innerText = "Lời khuyên: " + data.slip.advice;
+            } catch { document.getElementById('health-tip').innerText = "Hãy uống đủ nước mỗi ngày!"; }
+        }
+        window.onload = loadTip;
+    </script>
+</body>
+</html>
