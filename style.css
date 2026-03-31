@@ -1,0 +1,117 @@
+:root {
+    --primary: #00bcd4;
+    --white: #ffffff;
+    --bg-light: #e9ecef;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* Navbar */
+.top-nav {
+    background: var(--white);
+    padding: 0.5rem 0;
+    border-bottom: 2px solid var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+}
+
+.nav-links-wrapper {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 1rem 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.nav-links-wrapper.show { display: flex; }
+
+.nav-item-custom {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    display: block;
+}
+
+.nav-item-custom:hover, .nav-item-custom.active {
+    color: var(--primary);
+}
+
+@media (min-width: 992px) {
+    .menu-toggle { display: none !important; }
+    .nav-links-wrapper {
+        display: flex !important;
+        flex-direction: row;
+        position: static;
+        width: auto;
+        box-shadow: none;
+        padding: 0;
+    }
+    .nav-item-custom { padding: 0.5rem 1rem; }
+    .nav-item-custom.active { border-bottom: 2px solid var(--primary); }
+}
+
+/* Page Container */
+.page-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: white;
+    min-height: 70vh;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.page-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.page-content.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+}
+
+/* Components */
+.cyan-header {
+    background: var(--primary);
+    color: white;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.intro-body { padding: 3rem 2rem; }
+
+.feature-box {
+    padding: 1.5rem;
+    border-radius: 10px;
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    height: 100%;
+}
+
+.feature-box i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.auth-form {
+    max-width: 400px;
+    margin: 3rem auto;
+    padding: 0 1.5rem 3rem 1.5rem;
+}
