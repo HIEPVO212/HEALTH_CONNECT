@@ -1,0 +1,324 @@
+:root {
+    --primary: #87f1ff;
+    /* Màu Cyan chuẩn ảnh */
+    --bg-body: #f4f7f6;
+    --white: #ffffff;
+}
+
+body {
+    background-color: var(--primary);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* --- 1. NAVIGATION MOBILE FIRST --- */
+.top-nav {
+    background: var(--white);
+    padding: 0.5rem 0;
+    border-bottom: 2px solid var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+}
+
+.nav-links-wrapper {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 1rem 0;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links-wrapper.show {
+    display: flex;
+}
+
+.nav-item-custom {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444;
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.nav-item-custom:hover,
+.nav-item-custom.active {
+    color: var(--primary);
+}
+
+@media (min-width: 992px) {
+    .menu-toggle {
+        display: none !important;
+    }
+
+    .nav-links-wrapper {
+        display: flex !important;
+        flex-direction: row;
+        position: static;
+        width: auto;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .nav-item-custom {
+        border: none;
+        padding: 0.5rem 0.8rem;
+    }
+
+    .nav-item-custom.active {
+        border-bottom: 2px solid var(--primary);
+    }
+}
+
+/* --- 2. LAYOUT CHÍNH --- */
+.page-container {
+    max-width: 1200px;
+    margin: 1rem auto;
+    background: white;
+    min-height: 85vh;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.page-content {
+    display: none;
+}
+
+.page-content.active {
+    display: block;
+}
+
+/* HEADER XANH - Chuẩn các trang con */
+.cyan-header {
+    background: var(--primary);
+    color: white;
+    padding: 0.8rem 1rem;
+    font-size: 1.1rem;
+}
+
+/* 3. TRANG CHỦ GRID MENU (Ảnh 1) */
+.blue-hero {
+    background: var(--primary);
+    color: white;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.card-menu {
+    border-radius: 8px;
+    padding: 1.5rem 0.5rem;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.bg-blue {
+    background-color: #1e88e5;
+}
+
+.bg-orange {
+    background-color: #ff9f43;
+}
+
+.bg-teal {
+    background-color: #00a896;
+}
+
+.bg-red {
+    background-color: #ff5e5e;
+}
+
+/* 4. LIST ITEM (Bệnh viện & Bác sĩ - Ảnh 2, 3) */
+.list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.list-item img {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.btn-booking {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.4rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* 5. CHỌN GIỜ (Ảnh 4) */
+.time-slot {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.time-slot:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* 6. GIỚI THIỆU DÀI */
+.intro-text {
+    padding: 3rem;
+    line-height: 1.8;
+}
+
+/* 7. CALENDAR STYLES (NEW) */
+.calendar-container {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    padding: 15px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.calendar-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--primary);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+}
+
+.calendar-day-header {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #666;
+    padding-bottom: 5px;
+}
+
+.calendar-day {
+    padding: 8px 0;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.calendar-day:hover:not(.disabled) {
+    background: #e0f7fa;
+}
+
+.calendar-day.active {
+    background: var(--primary);
+    color: white;
+    font-weight: bold;
+}
+
+.calendar-day.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.calendar-day.empty {
+    cursor: default;
+}
+
+/* TIME SLOTS STYLES (UPDATED) */
+.slots-container.hidden {
+    display: none;
+}
+
+.time-slot {
+    border: 1px solid #ddd;
+    padding: 10px 5px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.2s;
+    background: #fafafa;
+}
+
+.time-slot:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.time-slot.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    font-weight: bold;
+    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.3);
+}
+
+.booking-actions {
+    margin-top: 30px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+/* --- 8. SIDEBAR LAYOUT --- */
+.main-layout-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1.5rem;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+    width: 100%;
+    max-width: 1600px;
+}
+
+.sidebar-col {
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.sidebar-card {
+    position: sticky;
+    top: 80px;
+    max-width: 280px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-col {
+    flex: 0 1 1000px;
+    min-width: 0;
+    width: 100%;
+}
