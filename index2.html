@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthConnect - Trang Chủ & Xác Nhận</title>
+    <!-- Bootstrap 5 & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="top-nav">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="fw-bold text-info fs-3 logo" onclick="navigate('home')">HEALTHCONNECT</div>
+            <div class="menu-toggle d-lg-none" onclick="toggleMenu()"><i class="fas fa-bars fs-2 text-info"></i></div>
+            <div class="nav-links-wrapper" id="navMenu">
+                <span class="nav-item-custom active" onclick="navigate('home')">Trang Chủ</span>
+                <span class="nav-item-custom" onclick="navigate('confirm')">Xác Nhận Đặt Lịch</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container shadow-sm">
+
+        <!-- 1. TRANG CHỦ -->
+        <section id="home" class="page-content active">
+            <div class="blue-hero">
+                <div class="hero-content">
+                    <h1 class="fw-bold">HealthConnect</h1>
+                    <p id="health-tip">Đang tải lời khuyên y tế...</p>
+                    <button class="btn btn-light text-info fw-bold rounded-pill px-4" onclick="navigate('confirm')">Đặt lịch ngay</button>
+                </div>
+                <i class="fas fa-user-md fa-7x opacity-25 d-none d-md-block"></i>
+            </div>
+            
+            <div class="menu-grid">
+                <div class="card-menu bg-blue" onclick="navigate('confirm')"><i class="fas fa-hospital fa-2x mb-2"></i><br>Tại viện</div>
+                <div class="card-menu bg-orange"><i class="fas fa-video fa-2x mb-2"></i><br>Từ xa</div>
+                <div class="card-menu bg-teal"><i class="fas fa-flask fa-2x mb-2"></i><br>Xét nghiệm</div>
+                <div class="card-menu bg-red" onclick="navigate('emergency')"><i class="fas fa-ambulance fa-2x mb-2"></i><br>Cấp cứu</div>
+            </div>
+
+            <div class="p-3">
+                <h6 class="fw-bold px-3 mb-3">Bệnh viện nổi bật</h6>
+                <div class="list-item" onclick="navigate('confirm')">
+                    <div class="d-flex align-items-center">
+                        <img src="https://images2.thanhnien.vn/528068263637045248/2023/8/18/img9538-16923539714192021645154.jpg" class="thumb">
+                        <div><strong>Bệnh viện Chợ Rẫy</strong><br><small class="text-muted">Quận 5, TP. Hồ Chí Minh</small></div>
+                    </div>
+                    <button class="btn btn-info text-white btn-sm rounded-pill px-3">Chọn</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TRANG XÁC NHẬN -->
+        <section id="confirm" class="page-content">
+            <div class="cyan-header">Xác Nhận Đặt Lịch Khám</div>
+            <div class="p-4">
+                <div class="booking-summary mb-4">
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Bệnh viện:</div>
+                        <div class="col-7 fw-bold">Chợ Rẫy</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Bác sĩ:</div>
+                        <div class="col-7 fw-bold">BS. Vũ Mỹ Hương</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 text-muted">Thời gian:</div>
+                        <div class="col-7 fw-bold text-info">08:00 - 25/12/2023</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-muted">Họ tên bệnh nhân</label>
+                    <input type="text" id="pName" class="form-control" placeholder="Nhập tên người khám..." value="Nguyễn Văn A">
+                </div>
+                
+                <button class="btn btn-info text-white w-100 py-3 fw-bold rounded-pill" onclick="finishBooking()">XÁC NHẬN ĐẶT LỊCH</button>
+                <button class="btn btn-link w-100 mt-2 text-muted text-decoration-none" onclick="navigate('home')">Quay lại</button>
+            </div>
+        </section>
+
+        <!-- 3. TRANG THÀNH CÔNG -->
+        <section id="success" class="page-content text-center p-5">
+            <i class="fas fa-check-circle text-info fa-5x mb-3"></i>
+            <h2 class="fw-bold">ĐẶT LỊCH THÀNH CÔNG!</h2>
+            <p class="text-muted">Mã số của bạn là: <strong id="resCode" class="text-info fs-4">#HC-888</strong></p>
+            <button class="btn btn-outline-info rounded-pill px-4 mt-3" onclick="navigate('home')">Quay lại trang chủ</button>
+        </section>
+
+        <!-- TRANG CẤP CỨU -->
+        <section id="emergency" class="page-content text-center p-5">
+            <h2 class="text-danger fw-bold">CẤP CỨU 24/7</h2>
+            <p>Vui lòng gọi ngay số điện thoại bên dưới</p>
+            <a href="tel:115" class="pulse-btn"><i class="fas fa-phone"></i></a>
+            <h3 class="text-danger fw-bold">GỌI NGAY: 115</h3>
+            <button class="btn btn-link mt-3" onclick="navigate('home')">Quay lại</button>
+        </section>
+
+    </div>
+
+    <script src="scrips.js"></script>
+</body>
+</html>
